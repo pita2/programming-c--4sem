@@ -71,8 +71,8 @@ int main(int argc, char* argv[]) {
     const auto startBlockingStack = std::chrono::high_resolution_clock::now();
     {
         threadPerf::BlockingStack<int> blockingStack{};
-       
-        
+
+
         std::vector<std::thread> producers;
         std::vector<std::thread> consumers;
         for (int i = 0; i < numberOfProducers; ++i)
@@ -87,7 +87,6 @@ int main(int argc, char* argv[]) {
     const auto endBlockingStack = std::chrono::high_resolution_clock::now();
     const auto timeBlocking = endBlockingStack - startBlockingStack;
     auto blockingSum = sum.load();
-
     sum = 0;
     numberOfTasks = NTASKS_KEEPER;
 
@@ -108,8 +107,9 @@ int main(int argc, char* argv[]) {
     }
     const auto endLockfreeStack = std::chrono::high_resolution_clock::now();
     const auto timeLockfree = endLockfreeStack - startLockfreeStack;
-    
+
 
     std::cout << "Blocking stack: " << std::chrono::duration_cast<std::chrono::microseconds>(timeBlocking) << '\n'
-        << "Lockfree stack: " << std::chrono::duration_cast<std::chrono::microseconds>(timeLockfree) << '\n';
+        << "Lockfree stack: " << std::chrono::duration_cast<std::chrono::microseconds>(timeLockfree) << '\n'
+        << "Blocking sum: " << blockingSum << "\n" << "Lockfree sum: " << sum.load() << "\n";
 }
